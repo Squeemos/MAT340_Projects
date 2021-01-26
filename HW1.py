@@ -288,7 +288,7 @@ if page == "Monty Hall Simulation":
                     new_door = select_new_door(possible_doors) # Choose a new door
                     if array[new_door] == 1:
                         wins += 1
-                st.write(f"The number of wins with {doors} doors and {prizes} prizes opening {open} doors in {trials} trials is {wins}")
+                st.write(f"The number of wins with {doors} doors and {prizes} prize{'s' if prizes >1 else ''} opening {open} door{'s' if open >1 else ''} in {trials} trials is {wins}")
                 st.write(f"Estimated probability of winning: {wins/trials:.2f}")
 
             # Creates the doors with prizes behind
@@ -343,7 +343,7 @@ if page == "Monty Hall Simulation":
                 new_door = select_new_door(possible_doors)
                 if array[new_door] == 1:
                     wins += 1
-            st.write(f"The number of wins with {doors} doors and {prizes} prizes opening {open} doors in {trials} trials is {wins}")
+            st.write(f"The number of wins with {doors} doors and {prizes} prize{'s' if prizes >1 else ''} opening {open} door{'s' if open >1 else ''} in {trials} trials is {wins}")
             st.write(f"Estimated probability of winning: {wins/trials:.2f}")
 
 def gamblers_ruin(start,stop,prob,trials):
