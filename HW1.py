@@ -3,7 +3,8 @@ Written by Ben van Oostendorp
 
 This is written for MAT 340
 Spring 2021
-DigiPen Insitute of Technology'''
+DigiPen Insitute of Technology
+'''
 
 import streamlit as st
 import random
@@ -101,6 +102,7 @@ if page == "Monty Hall":
             swap = swap_mutable()
 
             # Clear the lists to play a new game
+            st.write("Press this when done with a game to play again")
             if st.button("Reset"):
                 door.clear()
                 chosen.clear()
@@ -236,8 +238,113 @@ if page == "Monty Hall":
             if len(swap):
                 st.write(f"Swap or Stay: {swap[0]}")
 
+# Creates the doors with prizes behind
+def populate_array(number_doors,number_prizes):
+    array = np.zeros(number_doors)
+    while number_prizes != 0:
+        number = random.randint(0,number_doors-1)
+        if array[number] != 1:
+            array[number] = 1
+            number_prizes -= 1
+    return array
+
+# Opens the doors in the array
+def open_doors(array,number_doors_to_open):
+    number_doors = len(array)
+    while number_doors_to_open != 0:
+        number = random.randint(1,number_doors-1)
+        if array[number] == 0:
+            array[number] = -1
+            number_doors_to_open -= 1
+
+# Searches the array for door positions that aren't opened
+def find_unopened_doors(array):
+    indexes = []
+    for index,value in enumerate(array):
+        if value != -1:
+            indexes.append(index)
+    indexes.remove(0)
+    return indexes
+
+def select_new_door(array):
+    return array[random.randint(0,len(array)-1)]
+
 if page == "Monty Hall Simulation":
-    st.title("Monty Hall Simulation")
+    if code:
+        with st.echo('below'):
+            st.title("Monty Hall Simulation")
+
+            doors = int(st.number_input("Enter the number of doors",min_value=3,value=3))
+            prizes = int(st.number_input("Enter the number of prizes",min_value=1,max_value=doors-2,value=1))
+            open = int(st.number_input("Enter the number of doors to be opened",min_value=1,max_value=doors-prizes-1,value=1))
+            trials = int(st.number_input("Enter the number of trials",min_value=1,value=100))
+
+            if st.button("Run Trials"):
+                wins = 0
+                for _ in range(trials):
+                    array = populate_array(doors,prizes) # Create the doors in random places
+                    open_doors(array,open) # Open some doors
+                    possible_doors = find_unopened_doors(array) # Get list of doors to swap to
+                    new_door = select_new_door(possible_doors) # Choose a new door
+                    if array[new_door] == 1:
+                        wins += 1
+                st.write(f"The number of wins with {doors} doors and {prizes} prizes opening {open} doors in {trials} trials is {wins}")
+                st.write(f"Estimated probability of winning: {wins/trials:.2f}")
+
+            # Creates the doors with prizes behind
+            # Renamed dummy to preserve namespace
+            def populate_array_dummy(number_doors,number_prizes):
+                array = np.zeros(number_doors)
+                while number_prizes != 0:
+                    number = random.randint(0,number_doors-1)
+                    if array[number] != 1:
+                        array[number] = 1
+                        number_prizes -= 1
+                return array
+
+            # Opens the doors in the array
+            # Renamed dummy to preserve namespace
+            def open_doors_dummy(array,number_doors_to_open):
+                number_doors = len(array)
+                while number_doors_to_open != 0:
+                    number = random.randint(1,number_doors-1)
+                    if array[number] == 0:
+                        array[number] = -1
+                        number_doors_to_open -= 1
+
+            # Searches the array for door positions that aren't opened
+            # Renamed dummy to preserve namespace
+            def find_unopened_doors_dummy(array):
+                indexes = []
+                for index,value in enumerate(array):
+                    if value != -1:
+                        indexes.append(index)
+                indexes.remove(0)
+                return indexes
+
+            # Selects new door from list of possible doors
+            # Renamed dummy to preserve namespace
+            def select_new_door_dummy(array):
+                return array[random.randint(0,len(array)-1)]
+    else:
+        st.title("Monty Hall Simulation")
+
+        doors = int(st.number_input("Enter the number of doors",min_value=3,value=3))
+        prizes = int(st.number_input("Enter the number of prizes",min_value=1,max_value=doors-2,value=1))
+        open = int(st.number_input("Enter the number of doors to be opened",min_value=1,max_value=doors-prizes-1,value=1))
+        trials = int(st.number_input("Enter the number of trials",min_value=1,value=100))
+
+        if st.button("Run Trials"):
+            wins = 0
+            for _ in range(trials):
+                array = populate_array(doors,prizes)
+                open_doors(array,open)
+                possible_doors = find_unopened_doors(array)
+                new_door = select_new_door(possible_doors)
+                if array[new_door] == 1:
+                    wins += 1
+            st.write(f"The number of wins with {doors} doors and {prizes} prizes opening {open} doors in {trials} trials is {wins}")
+            st.write(f"Estimated probability of winning: {wins/trials:.2f}")
 
 def gamblers_ruin(start,stop,prob,trials):
     times_won = []
