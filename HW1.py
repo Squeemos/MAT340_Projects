@@ -24,7 +24,7 @@ def trial(trials,num):
     for _ in range(trials):
         coupons = []
         while len(set(coupons)) != num:
-            coupons.append(random.randint(0,num))
+            coupons.append(random.randint(0,num-1))
         counts.append(len(coupons))
 
     return np.average(counts), counts
