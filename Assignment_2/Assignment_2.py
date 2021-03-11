@@ -197,7 +197,7 @@ if page == "Correlation":
         with st.echo('below'):
             st.title("Correlation")
             # Load the data
-            data = load_data("Coding2_Data.csv")
+            data = load_data("https://raw.githubusercontent.com/Squeemos/MAT340_Projects/main/Assignment_2/Coding2_Data.csv")
             # Calculate the correlations
             corrs = check_against_correlation(data,"Course Grade")
             # Create dataframe from the correlations, output to file
@@ -242,7 +242,7 @@ if page == "Correlation":
     else:
         st.title("Correlation")
         # Load the data
-        data = load_data("Coding2_Data.csv")
+        data = load_data("https://raw.githubusercontent.com/Squeemos/MAT340_Projects/main/Assignment_2/Coding2_Data.csv")
 
         # Calculate the correlations
         corrs = check_against_correlation(data,"Course Grade")
