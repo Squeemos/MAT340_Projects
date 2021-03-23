@@ -196,6 +196,22 @@ if page == "Correlation":
     if code:
         with st.echo('below'):
             st.title("Correlation")
+
+            x_raw = st.text_input("Please enter list of numbers, separated by a space",key='x')
+            x = np.array([float(val) for val in x_raw.split()])
+
+            y_raw = st.text_input("Please enter list of numbers, separated by a space",key='y')
+            y = np.array([float(val) for val in y_raw.split()])
+
+            if len(x) == len(y):
+                df = pd.DataFrame([x,y]).T
+                df.columns=['x','y']
+                st.write(df)
+                correlation(df,*df.columns)
+            else:
+                st.write("The length of the two inputs is not equal, please make them equal to run the correlation on")
+                st.write(f"Length of x: {len(x)}\nLength of y: {len(y)}")
+
             # Load the data
             data = load_data("https://raw.githubusercontent.com/Squeemos/MAT340_Projects/main/Assignment_2/Coding2_Data.csv")
             # Calculate the correlations
@@ -241,6 +257,21 @@ if page == "Correlation":
             #     return corrs
     else:
         st.title("Correlation")
+
+        x_raw = st.text_input("Please enter list of numbers, separated by a space",key='x')
+        x = np.array([float(val) for val in x_raw.split()])
+
+        y_raw = st.text_input("Please enter list of numbers, separated by a space",key='y')
+        y = np.array([float(val) for val in y_raw.split()])
+
+        if len(x) == len(y):
+            df = pd.DataFrame([x,y]).T
+            df.columns=['x','y']
+            st.write(df)
+            correlation(df,*df.columns)
+        else:
+            st.write("The length of the two inputs is not equal, please make them equal to run the correlation on")
+            st.write(f"Length of x: {len(x)}\nLength of y: {len(y)}")
         # Load the data
         data = load_data("https://raw.githubusercontent.com/Squeemos/MAT340_Projects/main/Assignment_2/Coding2_Data.csv")
 
