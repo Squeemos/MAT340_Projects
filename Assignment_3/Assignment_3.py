@@ -91,7 +91,7 @@ if page == "Polya's Urn":
         num_green.append(green / (1000 + x + y))
 
     dist = make_probability_distribution(num_green)
-    st.write(list(dist))
+    st.write(dist)
     fig = plt.figure(figsize=(10,10))
     plt.bar(range(len(dist)),list(dist.values()),align='edge',color='green')
     plt.xticks(range(len(dist)),list(dist.keys()))
